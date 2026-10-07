@@ -108,13 +108,10 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--turq);outline-of
 
 <div id="lb" class="hide" role="dialog" aria-label="Foto ampliada"><img alt=""></div>
 
-<!-- Envío a Google Apps Script -->
-<iframe name="hiddenFrame" id="hiddenFrame" class="hide"></iframe>
-<form id="gform" method="POST" target="hiddenFrame" class="hide"></form>
 
 <script>
-// Pega aquí la URL de la app web de Google Apps Script (termina en /exec)
-const SCRIPT_URL = "PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT";
+// Pega aquí el código de tu formulario de Formspree (lo que va después de formspree.io/f/, p. ej. "xabcdwyz")
+const FORMSPREE_ID = "PEGA_AQUI_EL_CODIGO";
 
 const TALLAS = ["33","34","35","36","37","38","39","40","41","42","43","44","45","46"];
 const PRODUCTS = [
@@ -237,28 +234,41 @@ function validate(){
   return "";
 }
 
-$("#send").onclick=()=>{
+$("#send").onclick=async()=>{
   const m=$("#msg"); const err=validate();
   if(err){ m.textContent=err; m.className="e"; const b=document.querySelector(".bad"); if(b) b.scrollIntoView({behavior:"smooth",block:"center"}); return; }
-  if(!/^https:\/\/script\.google(usercontent)?\.com\//.test(SCRIPT_URL)){ m.textContent="Falta configurar la URL del Apps Script (SCRIPT_URL)."; m.className="e"; return; }
+  if(!/^[A-Za-z0-9]{6,}$/.test(FORMSPREE_ID)){ m.textContent="Falta configurar el código de Formspree (FORMSPREE_ID)."; m.className="e"; return; }
   const total=calc();
   const resumen=lines.map(lineText).join("\n")+"\n\nTOTAL: "+eur(total);
-  const det=lines.map(L=>{const p=PRODUCTS.find(x=>x.id===L.pid);
-    return {producto:p.code,talla:L.vals.talla||"",color:L.vals.color||"",medida:L.vals.medida||"",
-      posicion:p.pos||"",nombre_strap:L.vals.nombre||"",cantidad:L.qty,precio:p.price,subtotal:p.price*L.qty};});
-  const data={fecha:new Date().toLocaleString("es-ES"),patinador:$("#patinador").value.trim(),
-    responsable:$("#responsable").value.trim(),telefono:$("#telefono").value.trim(),email:$("#email").value.trim(),
-    observaciones:$("#obs").value.trim(),resumen,total:String(total),lineas:JSON.stringify(det)};
-  const f=$("#gform"); f.action=SCRIPT_URL; f.innerHTML="";
-  for(const [k,v] of Object.entries(data)){ const i=document.createElement("input"); i.type="hidden"; i.name=k; i.value=v; f.appendChild(i); }
+  const patinador=$("#patinador").value.trim();
+  // Una columna por dato y otra por producto, para que el Excel salga ordenado
+  const data={
+    "_subject":"Nuevo pedido Freestyle · "+patinador+" · "+eur(total),
+    "Fecha":new Date().toLocaleString("es-ES"),
+    "Patinador/a":patinador,
+    "Responsable":$("#responsable").value.trim(),
+    "Teléfono":$("#telefono").value.trim(),
+    "email":$("#email").value.trim(),
+    "Total (€)":total,
+    "Pedido":resumen,
+    "Observaciones":$("#obs").value.trim()
+  };
+  PRODUCTS.forEach(p=>{
+    const ls=lines.filter(L=>L.pid===p.id); if(!ls.length) return;
+    data[p.code]=ls.map(L=>{ const det=p.fields.map(f=>L.vals[f.k]).filter(Boolean).join(" · ");
+      return L.qty+" ud."+(det?" · "+det:""); }).join(" | ");
+  });
   const btn=$("#send"); btn.disabled=true; btn.textContent="Enviando…"; m.textContent=""; m.className="";
-  let sent=false;
-  const tmo=setTimeout(()=>{ if(sent) return; sent=true; btn.disabled=false; btn.textContent="Enviar pedido";
-    m.textContent="No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo."; m.className="e"; },20000);
-  $("#hiddenFrame").onload=()=>{ if(sent) return; sent=true; clearTimeout(tmo);
+  try{
+    const r=await fetch("https://formspree.io/f/"+FORMSPREE_ID,{method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)});
+    if(!r.ok) throw new Error("HTTP "+r.status);
     $("#app").classList.add("hide"); $("#bar").classList.add("hide");
-    $("#resumenOk").textContent=data.patinador+"\n\n"+resumen; $("#done").classList.remove("hide"); window.scrollTo(0,0); };
-  f.submit();
+    $("#resumenOk").textContent=patinador+"\n\n"+resumen; $("#done").classList.remove("hide"); window.scrollTo(0,0);
+  }catch(e){
+    m.textContent="No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo."; m.className="e";
+    btn.disabled=false; btn.textContent="Enviar pedido";
+  }
 };
 
 buildCatalog();

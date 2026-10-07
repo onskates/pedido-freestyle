@@ -1,14 +1,13 @@
 # Pedido Freestyle · OnSkates
 
-Formulario web (`index.html`) que envía cada pedido a la hoja de cálculo mediante `Code.gs`.
+Formulario web del último pedido Freestyle: https://mbgensayos.github.io/pedido-freestyle/
+
+## Cómo llegan los pedidos
+Los pedidos se envían a **Formspree** (https://formspree.io):
+- Cada pedido llega por email.
+- Todos quedan guardados en el panel de Formspree, desde donde se descargan en Excel (Export → CSV).
 
 ## Puesta en marcha
-1. En la hoja de cálculo: Extensiones › Apps Script › pega `Code.gs`.
-2. Implementar › Nueva implementación › Aplicación web · Ejecutar como: yo · Acceso: cualquier usuario.
-3. Copia la URL y pégala en `SCRIPT_URL`, dentro de `index.html`.
-4. Ajusta `PRODUCTS` (productos, precios, tallas, colores…) si cambia algo.
-5. Sube `index.html` junto con `flamenco.png` (el icono) a GitHub Pages o Netlify, o incrústalo en Wix con un elemento HTML. Si falta el icono, la página se ve igual, solo que sin él.
-
-## Dirección de la web
-Con GitHub Pages activado (Settings › Pages › Branch: `main` / `(root)`), el formulario queda en:
-https://mbgensayos.github.io/pedido-freestyle/
+1. Crea una cuenta gratis en https://formspree.io y un formulario nuevo (New form).
+2. Copia el código del formulario (lo que va después de `formspree.io/f/`).
+3. Pégalo en `FORMSPREE_ID`, dentro de `index.html`.
