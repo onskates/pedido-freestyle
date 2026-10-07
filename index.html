@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Último pedido Freestyle · OnSkates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--negro:#000;--turq:#00B0E0;--azul:#004B67;--gris:#333;--gclaro:#E5E5E5;--blanco:#fff;--err:#B00020}
+*{box-sizing:border-box}
+body{margin:0;background:#F4F4F4;font-family:'Montserrat',Arial,sans-serif;color:var(--gris);letter-spacing:.01em;line-height:1.45}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 120px}
+header{background:var(--blanco);border-bottom:4px solid var(--turq);padding:28px 16px 22px}
+header .in{max-width:720px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.club{font-family:'Anton',Impact,sans-serif;font-size:15px;letter-spacing:.06em;color:var(--azul);margin:0 0 6px}
+h1{font-family:'Anton',Impact,sans-serif;font-weight:400;text-transform:uppercase;color:var(--negro);font-size:clamp(30px,7vw,44px);line-height:1.02;margin:0}
+.sub{margin:10px 0 0;font-size:15px}
+.firma{width:40px;height:auto;flex:none;margin-top:4px}
+.aviso{background:var(--blanco);border-left:4px solid var(--turq);padding:14px 16px;margin:20px 0;font-size:14px}
+section{background:var(--blanco);border-radius:6px;padding:20px 18px;margin:16px 0;border:1px solid var(--gclaro)}
+h2{font-family:'Anton',Impact,sans-serif;font-weight:400;text-transform:uppercase;font-size:22px;color:var(--negro);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:0;height:0;border-left:9px solid var(--turq);border-top:6px solid transparent;border-bottom:6px solid transparent}
+label{display:block;font-size:13px;font-weight:600;color:var(--negro);margin:0 0 5px}
+input,select,textarea{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid #BDBDBD;border-radius:4px;background:#fff;color:var(--negro)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--turq);outline-offset:0;border-color:var(--turq)}
+.f{margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.row>.f{flex:1 1 140px;margin-bottom:0}
+.prod{border-top:1px solid var(--gclaro);padding:16px 0}
+.prod:first-of-type{border-top:0;padding-top:4px}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.code{font-weight:700;color:var(--negro);font-size:15px}
+.desc{font-size:13px;color:#666}
+.price{font-family:'Anton',Impact,sans-serif;font-size:22px;color:var(--azul);font-variant-numeric:tabular-nums;white-space:nowrap}
+.line{background:#F7FBFD;border:1px solid #CDEFF8;border-radius:4px;padding:12px;margin-top:10px;display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.line .row{flex:1 1 auto}
+.del{background:none;border:0;color:var(--azul);font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:10px 4px;text-decoration:underline}
+.add{margin-top:10px;background:var(--blanco);border:1.5px solid var(--azul);color:var(--azul);font:inherit;font-weight:600;font-size:14px;padding:8px 14px;border-radius:4px;cursor:pointer}
+.add:hover{background:var(--azul);color:#fff}
+.bad{border-color:var(--err)!important;background:#FFF5F6}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--blanco);border-top:4px solid var(--turq);padding:12px 16px}
+.bar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tot small{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.tot b{font-family:'Anton',Impact,sans-serif;font-weight:400;font-size:30px;color:var(--negro);font-variant-numeric:tabular-nums}
+.send{background:var(--negro);color:#fff;border:0;font:inherit;font-weight:700;font-size:15px;padding:14px 22px;border-radius:4px;cursor:pointer}
+.send:disabled{opacity:.5;cursor:wait}
+#msg{font-size:14px;margin:10px 0 0}
+#msg.e{color:var(--err);font-weight:600}
+.ok{text-align:center;padding:50px 20px}
+.ok h2{justify-content:center}
+.ok pre{text-align:left;white-space:pre-wrap;font-family:inherit;background:#F7FBFD;border:1px solid #CDEFF8;padding:14px;border-radius:4px;font-size:14px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <div>
+    <p class="club">C.D.E. ONSKATES</p>
+    <h1>Último pedido<br>Freestyle</h1>
+    <p class="sub">Formulario de pedido de material</p>
+  </div>
+  <img class="firma" src="flamenco.png" alt="OnSkates" onerror="this.remove()">
+</div></header>
+
+<div class="wrap" id="app">
+  <div class="aviso">Estamos terminando de cerrar el convenio con FR, así que este es el <strong>último pedido de Freestyle</strong>. Hacemos el pedido <strong>mañana</strong>: rellena el formulario cuanto antes y revisa bien tallas, colores y nombres.</div>
+
+  <section>
+    <h2>Tus datos</h2>
+    <div class="f"><label for="patinador">Nombre y apellidos del patinador/a *</label><input id="patinador" autocomplete="name"></div>
+    <div class="f"><label for="responsable">Madre, padre o tutor/a (si es menor)</label><input id="responsable"></div>
+    <div class="row">
+      <div class="f"><label for="telefono">Teléfono *</label><input id="telefono" type="tel" autocomplete="tel"></div>
+      <div class="f"><label for="email">Email</label><input id="email" type="email" autocomplete="email"></div>
+    </div>
+  </section>
+
+  <section id="cat"><h2>Material</h2></section>
+
+  <section>
+    <h2>Observaciones</h2>
+    <textarea id="obs" rows="3" placeholder="Cualquier detalle que debamos tener en cuenta"></textarea>
+  </section>
+</div>
+
+<div class="wrap ok hide" id="done">
+  <h2>¡Pedido recibido!</h2>
+  <p>Gracias. Este es el resumen de lo que has pedido:</p>
+  <pre id="resumenOk"></pre>
+</div>
+
+<div class="bar" id="bar"><div class="in">
+  <div class="tot"><small>Total</small><b id="total">0 €</b></div>
+  <button class="send" id="send">Enviar pedido</button>
+</div><div class="in"><p id="msg"></p></div></div>
+
+<!-- Envío a Google Apps Script -->
+<iframe name="hiddenFrame" id="hiddenFrame" class="hide"></iframe>
+<form id="gform" method="POST" target="hiddenFrame" class="hide"></form>
+
+<script>
+// Pega aquí la URL de la app web de Google Apps Script (termina en /exec)
+const SCRIPT_URL = "PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT";
+
+const TALLAS = ["33","34","35","36","37","38","39","40","41","42","43","44","45","46"];
+const PRODUCTS = [
+  {id:"flash",  code:"FSSK-FLASH Complete", desc:"Patines speed Flash completos", price:800, qty:false,
+   fields:[{k:"talla",l:"Talla",o:TALLAS}]},
+  {id:"yjspro", code:"FSSK-YJSPRO", desc:"Patines slalom", price:550, qty:false,
+   fields:[{k:"talla",l:"Talla",o:TALLAS},{k:"color",l:"Color",o:["Gris y blanco","Blanco y rojo"]}]},
+  {id:"max",    code:"FSSK-MAX Complete", desc:"Patines speed completos", price:450, qty:false,
+   fields:[{k:"talla",l:"Talla",o:TALLAS},{k:"color",l:"Color",o:["Azul","Rosa","Marrón"]}]},
+  {id:"kos",    code:"FS-WHEEL KOS 100mm", desc:"Juego de ruedas 100 speed", price:90, qty:true, fields:[]},
+  {id:"gpro",   code:"FS-WHEEL GPRO", desc:"Juego de ruedas slalom", price:50, qty:true,
+   fields:[{k:"medida",l:"Medida",o:["80 mm","76 mm","72 mm"]},{k:"color",l:"Color",o:["Blanco","Púrpura"]}]},
+  {id:"bearing",code:"FS-BEARING MAX", desc:"Juego de rodamientos", price:35, qty:true, fields:[]},
+  {id:"strapnomA", code:"Strap de arriba personalizado", desc:"Strap superior del patín, con nombre", price:60, qty:false, pos:"Arriba",
+   fields:[{k:"nombre",l:"Nombre en el strap",text:true}]},
+  {id:"strapnomB", code:"Strap de abajo personalizado", desc:"Strap inferior del patín, con nombre", price:60, qty:false, pos:"Abajo",
+   fields:[{k:"nombre",l:"Nombre en el strap",text:true}]},
+  {id:"strapcompA",code:"Strap de arriba completo", desc:"Strap superior del patín", price:10, qty:true, pos:"Arriba", fields:[]},
+  {id:"strapcompB",code:"Strap de abajo completo", desc:"Strap inferior del patín", price:10, qty:true, pos:"Abajo", fields:[]},
+  {id:"strapsoloA",code:"Strap de arriba solo", desc:"Strap superior del patín", price:8, qty:true, pos:"Arriba", fields:[]},
+  {id:"strapsoloB",code:"Strap de abajo solo", desc:"Strap inferior del patín", price:8, qty:true, pos:"Abajo", fields:[]}
+];
+
+const lines = []; // {uid, pid, vals:{}, qty}
+let uidN = 0;
+const eur = n => n.toLocaleString("es-ES") + " €";
+const $ = s => document.querySelector(s);
+
+function el(tag, attrs={}, kids=[]){
+  const e=document.createElement(tag);
+  for(const [k,v] of Object.entries(attrs)){ if(k==="text") e.textContent=v; else e.setAttribute(k,v); }
+  kids.forEach(c=>e.appendChild(c)); return e;
+}
+
+function buildCatalog(){
+  const cat=$("#cat");
+  PRODUCTS.forEach(p=>{
+    const box=el("div",{class:"prod"});
+    box.appendChild(el("div",{class:"ph"},[
+      el("div",{},[el("div",{class:"code",text:p.code}),el("div",{class:"desc",text:p.desc})]),
+      el("div",{class:"price",text:eur(p.price)})
+    ]));
+    const list=el("div",{id:"l_"+p.id}); box.appendChild(list);
+    const b=el("button",{class:"add",type:"button",text:"+ Añadir"});
+    b.onclick=()=>addLine(p); box.appendChild(b);
+    cat.appendChild(box);
+  });
+}
+
+function addLine(p){
+  const L={uid:++uidN,pid:p.id,vals:{},qty:1}; lines.push(L);
+  const row=el("div",{class:"row"});
+  p.fields.forEach(f=>{
+    const id="x"+L.uid+f.k; const wrap=el("div",{class:"f"});
+    wrap.appendChild(el("label",{for:id,text:f.l}));
+    let inp;
+    if(f.text){ inp=el("input",{id,maxlength:"14",placeholder:"Ej.: IRENE"}); inp.oninput=()=>{L.vals[f.k]=inp.value.trim();}; }
+    else{ inp=el("select",{id}); inp.appendChild(el("option",{value:"",text:"Elige…"}));
+      f.o.forEach(o=>inp.appendChild(el("option",{value:o,text:o}))); inp.onchange=()=>{L.vals[f.k]=inp.value;}; }
+    inp.dataset.req=f.k; wrap.appendChild(inp); row.appendChild(wrap);
+  });
+  if(p.qty){
+    const id="x"+L.uid+"q"; const wrap=el("div",{class:"f"});
+    wrap.appendChild(el("label",{for:id,text:"Cantidad"}));
+    const q=el("input",{id,type:"number",min:"1",max:"20",value:"1",inputmode:"numeric"});
+    q.oninput=()=>{L.qty=Math.max(1,parseInt(q.value)||1);calc();};
+    wrap.appendChild(q); row.appendChild(wrap);
+  }
+  if(!p.fields.length && !p.qty) row.appendChild(el("div",{class:"desc",text:"1 unidad"}));
+  const del=el("button",{class:"del",type:"button",text:"Quitar"});
+  const line=el("div",{class:"line"},[row,del]);
+  del.onclick=()=>{lines.splice(lines.indexOf(L),1);line.remove();calc();};
+  L.node=line; $("#l_"+p.id).appendChild(line); calc();
+}
+
+function calc(){
+  const t=lines.reduce((s,L)=>s+PRODUCTS.find(p=>p.id===L.pid).price*L.qty,0);
+  $("#total").textContent=eur(t); return t;
+}
+
+function lineText(L){
+  const p=PRODUCTS.find(x=>x.id===L.pid);
+  const det=p.fields.map(f=>f.l+": "+(L.vals[f.k]||"")).join(" · ");
+  return L.qty+" x "+p.code+(det?" ("+det+")":"")+" — "+eur(p.price*L.qty);
+}
+
+function validate(){
+  let ok=true; document.querySelectorAll(".bad").forEach(e=>e.classList.remove("bad"));
+  ["#patinador","#telefono"].forEach(s=>{ if(!$(s).value.trim()){ $(s).classList.add("bad"); ok=false; }});
+  lines.forEach(L=>{ L.node.querySelectorAll("[data-req]").forEach(i=>{ if(!i.value.trim()){ i.classList.add("bad"); ok=false; }}); });
+  if(!ok) return "Revisa los campos marcados en rojo.";
+  if(!lines.length) return "Añade al menos un producto.";
+  return "";
+}
+
+$("#send").onclick=()=>{
+  const m=$("#msg"); const err=validate();
+  if(err){ m.textContent=err; m.className="e"; const b=document.querySelector(".bad"); if(b) b.scrollIntoView({behavior:"smooth",block:"center"}); return; }
+  if(!/^https:\/\/script\.google(usercontent)?\.com\//.test(SCRIPT_URL)){ m.textContent="Falta configurar la URL del Apps Script (SCRIPT_URL)."; m.className="e"; return; }
+  const total=calc();
+  const resumen=lines.map(lineText).join("\n")+"\n\nTOTAL: "+eur(total);
+  const det=lines.map(L=>{const p=PRODUCTS.find(x=>x.id===L.pid);
+    return {producto:p.code,talla:L.vals.talla||"",color:L.vals.color||"",medida:L.vals.medida||"",
+      posicion:p.pos||"",nombre_strap:L.vals.nombre||"",cantidad:L.qty,precio:p.price,subtotal:p.price*L.qty};});
+  const data={fecha:new Date().toLocaleString("es-ES"),patinador:$("#patinador").value.trim(),
+    responsable:$("#responsable").value.trim(),telefono:$("#telefono").value.trim(),email:$("#email").value.trim(),
+    observaciones:$("#obs").value.trim(),resumen,total:String(total),lineas:JSON.stringify(det)};
+  const f=$("#gform"); f.action=SCRIPT_URL; f.innerHTML="";
+  for(const [k,v] of Object.entries(data)){ const i=document.createElement("input"); i.type="hidden"; i.name=k; i.value=v; f.appendChild(i); }
+  const btn=$("#send"); btn.disabled=true; btn.textContent="Enviando…"; m.textContent=""; m.className="";
+  let sent=false;
+  const tmo=setTimeout(()=>{ if(sent) return; sent=true; btn.disabled=false; btn.textContent="Enviar pedido";
+    m.textContent="No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo."; m.className="e"; },20000);
+  $("#hiddenFrame").onload=()=>{ if(sent) return; sent=true; clearTimeout(tmo);
+    $("#app").classList.add("hide"); $("#bar").classList.add("hide");
+    $("#resumenOk").textContent=data.patinador+"\n\n"+resumen; $("#done").classList.remove("hide"); window.scrollTo(0,0); };
+  f.submit();
+};
+
+buildCatalog();
+</script>
+</body>
+</html>
