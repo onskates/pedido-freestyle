@@ -128,22 +128,23 @@ const PRODUCTS = [
   {id:"max",    code:"FSSK-MAX Complete", desc:"Patines speed completos", price:450, qty:false, guia:"tallas-flash.jpg",
    imgs:["max.jpg","max-azul.jpg","max-rosa.jpg","max-marron.jpg"], porColor:{"Azul":"max-azul.jpg","Rosa":"max-rosa.jpg","Marrón":"max-marron.jpg"},
    fields:[{k:"talla",l:"Talla",o:TALLAS},{k:"color",l:"Color",o:["Azul","Rosa","Marrón"]}]},
-  {id:"kos",    code:"FS-WHEEL KOS 100mm", desc:"Juego de ruedas 100 speed", price:90, qty:true, imgs:["kos.jpg"], fields:[]},
+  {id:"kos",    code:"FS-WHEEL KOS 100mm", desc:"Juego de ruedas 100 speed", price:90, qty:true, imgs:["kos.jpg"],
+   fields:[{k:"color",l:"Color",o:["Naranja","Morado"]}]},
   {id:"gpro",   code:"FS-WHEEL GPRO", desc:"Juego de ruedas slalom", price:50, qty:true,
    imgs:["gpro-blanco.jpg","gpro-purpura.jpg"], porColor:{"Blanco":"gpro-blanco.jpg","Púrpura":"gpro-purpura.jpg"},
    fields:[{k:"medida",l:"Medida",o:["80 mm","76 mm","72 mm"]},{k:"color",l:"Color",o:["Blanco","Púrpura"]}]},
   {id:"bearing",code:"FS-BEARING MAX", desc:"Juego de rodamientos", price:35, qty:true, fields:[]},
-  {id:"tornillos",code:"Tornillos", desc:"Juego de tornillos", price:8, qty:true, imgs:["tornillos.jpg"], fields:[]},
+  {id:"tornillos",code:"Tornillos", desc:"Pack de 8", price:15, qty:true, imgs:["tornillos.jpg"], fields:[]},
   {id:"guiamax",code:"Guía MAX Speed", desc:"Guía speed, 165 mounting", price:90, qty:true, imgs:["guia-max.jpg"],
    fields:[{k:"medida",l:"Medida",o:["8.3 · 90 mm","8.8 · 90 mm","8.8 · 100 mm","9.2 · 100 mm","9.2 · 105 mm"]}]},
   {id:"strapnomA", imgs:["strap-nombre.jpg"], code:"Strap de arriba personalizado", desc:"Strap superior del patín, con nombre", price:60, qty:false, pos:"Arriba",
    fields:[{k:"nombre",l:"Nombre en el strap",text:true}]},
   {id:"strapnomB", imgs:["strap-nombre.jpg"], code:"Strap de abajo personalizado", desc:"Strap inferior del patín, con nombre", price:60, qty:false, pos:"Abajo",
    fields:[{k:"nombre",l:"Nombre en el strap",text:true}]},
-  {id:"strapcompA", imgs:["strap.jpg"],code:"Strap de arriba completo", desc:"Strap superior del patín", price:10, qty:true, pos:"Arriba", fields:[]},
-  {id:"strapcompB", imgs:["strap.jpg"],code:"Strap de abajo completo", desc:"Strap inferior del patín", price:10, qty:true, pos:"Abajo", fields:[]},
-  {id:"strapsoloA", imgs:["strap.jpg"],code:"Strap de arriba solo", desc:"Strap superior del patín", price:8, qty:true, pos:"Arriba", fields:[]},
-  {id:"strapsoloB", imgs:["strap.jpg"],code:"Strap de abajo solo", desc:"Strap inferior del patín", price:8, qty:true, pos:"Abajo", fields:[]}
+  {id:"strapcompA", imgs:["strap-arriba.jpg"],code:"Strap de arriba completo", desc:"Strap superior del patín", price:10, qty:true, pos:"Arriba", fields:[]},
+  {id:"strapcompB", imgs:["strap-abajo.jpg"],code:"Strap de abajo completo", desc:"Strap inferior del patín", price:10, qty:true, pos:"Abajo", fields:[]},
+  {id:"strapsoloA", imgs:["strap-arriba.jpg"],code:"Strap de arriba solo", desc:"Strap superior del patín", price:8, qty:true, pos:"Arriba", fields:[]},
+  {id:"strapsoloB", imgs:["strap-abajo.jpg"],code:"Strap de abajo solo", desc:"Strap inferior del patín", price:8, qty:true, pos:"Abajo", fields:[]}
 ];
 
 const lines = []; // {uid, pid, vals:{}, qty}
