@@ -51,6 +51,17 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--turq);outline-of
 .ok h2{justify-content:center}
 .ok pre{text-align:left;white-space:pre-wrap;font-family:inherit;background:#F7FBFD;border:1px solid #CDEFF8;padding:14px;border-radius:4px;font-size:14px}
 .hide{display:none}
+.pinfo{display:flex;gap:12px;align-items:center;min-width:0}
+.thumb{width:76px;height:76px;flex:none;border:1px solid var(--gclaro);border-radius:4px;background:#fff;padding:2px;cursor:zoom-in;display:flex;align-items:center;justify-content:center}
+.thumb img{max-width:100%;max-height:100%;display:block}
+.gal{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.gal button{width:48px;height:48px;border:1px solid var(--gclaro);border-radius:4px;background:#fff;padding:2px;cursor:pointer}
+.gal button.on{border-color:var(--turq);outline:1px solid var(--turq)}
+.gal img{max-width:100%;max-height:100%}
+.guia{background:none;border:0;padding:0;margin-top:4px;color:var(--azul);font:inherit;font-size:13px;font-weight:600;text-decoration:underline;cursor:pointer}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20;cursor:zoom-out}
+#lb.hide{display:none}
+#lb img{max-width:100%;max-height:100%;background:#fff;border-radius:4px}
 </style>
 </head>
 <body>
@@ -95,6 +106,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--turq);outline-of
   <button class="send" id="send">Enviar pedido</button>
 </div><div class="in"><p id="msg"></p></div></div>
 
+<div id="lb" class="hide" role="dialog" aria-label="Foto ampliada"><img alt=""></div>
+
 <!-- Envío a Google Apps Script -->
 <iframe name="hiddenFrame" id="hiddenFrame" class="hide"></iframe>
 <form id="gform" method="POST" target="hiddenFrame" class="hide"></form>
@@ -106,23 +119,27 @@ const SCRIPT_URL = "PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT";
 const TALLAS = ["33","34","35","36","37","38","39","40","41","42","43","44","45","46"];
 const PRODUCTS = [
   {id:"flash",  code:"FSSK-FLASH Complete", desc:"Patines speed Flash completos", price:800, qty:false,
+   imgs:["flash-1.jpg","flash-2.jpg","flash-3.jpg","flash-4.jpg"], guia:"tallas-flash.jpg",
    fields:[{k:"talla",l:"Talla",o:TALLAS}]},
-  {id:"yjspro", code:"FSSK-YJSPRO", desc:"Patines slalom", price:550, qty:false,
+  {id:"yjspro", code:"FSSK-YJSPRO", desc:"Patines slalom", price:550, qty:false, guia:"tallas-yjspro.jpg",
+   imgs:["yjspro-gris-blanco.jpg","yjspro-blanco-rojo.jpg"], porColor:{"Gris y blanco":"yjspro-gris-blanco.jpg","Blanco y rojo":"yjspro-blanco-rojo.jpg"},
    fields:[{k:"talla",l:"Talla",o:TALLAS},{k:"color",l:"Color",o:["Gris y blanco","Blanco y rojo"]}]},
-  {id:"max",    code:"FSSK-MAX Complete", desc:"Patines speed completos", price:450, qty:false,
+  {id:"max",    code:"FSSK-MAX Complete", desc:"Patines speed completos", price:450, qty:false, guia:"tallas-flash.jpg",
+   imgs:["max.jpg","max-azul.jpg","max-rosa.jpg","max-marron.jpg"], porColor:{"Azul":"max-azul.jpg","Rosa":"max-rosa.jpg","Marrón":"max-marron.jpg"},
    fields:[{k:"talla",l:"Talla",o:TALLAS},{k:"color",l:"Color",o:["Azul","Rosa","Marrón"]}]},
   {id:"kos",    code:"FS-WHEEL KOS 100mm", desc:"Juego de ruedas 100 speed", price:90, qty:true, fields:[]},
   {id:"gpro",   code:"FS-WHEEL GPRO", desc:"Juego de ruedas slalom", price:50, qty:true,
    fields:[{k:"medida",l:"Medida",o:["80 mm","76 mm","72 mm"]},{k:"color",l:"Color",o:["Blanco","Púrpura"]}]},
   {id:"bearing",code:"FS-BEARING MAX", desc:"Juego de rodamientos", price:35, qty:true, fields:[]},
-  {id:"strapnomA", code:"Strap de arriba personalizado", desc:"Strap superior del patín, con nombre", price:60, qty:false, pos:"Arriba",
+  {id:"tornillos",code:"Tornillos", desc:"Juego de tornillos", price:8, qty:true, fields:[]},
+  {id:"strapnomA", imgs:["strap-nombre.jpg"], code:"Strap de arriba personalizado", desc:"Strap superior del patín, con nombre", price:60, qty:false, pos:"Arriba",
    fields:[{k:"nombre",l:"Nombre en el strap",text:true}]},
-  {id:"strapnomB", code:"Strap de abajo personalizado", desc:"Strap inferior del patín, con nombre", price:60, qty:false, pos:"Abajo",
+  {id:"strapnomB", imgs:["strap-nombre.jpg"], code:"Strap de abajo personalizado", desc:"Strap inferior del patín, con nombre", price:60, qty:false, pos:"Abajo",
    fields:[{k:"nombre",l:"Nombre en el strap",text:true}]},
-  {id:"strapcompA",code:"Strap de arriba completo", desc:"Strap superior del patín", price:10, qty:true, pos:"Arriba", fields:[]},
-  {id:"strapcompB",code:"Strap de abajo completo", desc:"Strap inferior del patín", price:10, qty:true, pos:"Abajo", fields:[]},
-  {id:"strapsoloA",code:"Strap de arriba solo", desc:"Strap superior del patín", price:8, qty:true, pos:"Arriba", fields:[]},
-  {id:"strapsoloB",code:"Strap de abajo solo", desc:"Strap inferior del patín", price:8, qty:true, pos:"Abajo", fields:[]}
+  {id:"strapcompA", imgs:["strap.jpg"],code:"Strap de arriba completo", desc:"Strap superior del patín", price:10, qty:true, pos:"Arriba", fields:[]},
+  {id:"strapcompB", imgs:["strap.jpg"],code:"Strap de abajo completo", desc:"Strap inferior del patín", price:10, qty:true, pos:"Abajo", fields:[]},
+  {id:"strapsoloA", imgs:["strap.jpg"],code:"Strap de arriba solo", desc:"Strap superior del patín", price:8, qty:true, pos:"Arriba", fields:[]},
+  {id:"strapsoloB", imgs:["strap.jpg"],code:"Strap de abajo solo", desc:"Strap inferior del patín", price:8, qty:true, pos:"Abajo", fields:[]}
 ];
 
 const lines = []; // {uid, pid, vals:{}, qty}
@@ -140,10 +157,21 @@ function buildCatalog(){
   const cat=$("#cat");
   PRODUCTS.forEach(p=>{
     const box=el("div",{class:"prod"});
-    box.appendChild(el("div",{class:"ph"},[
-      el("div",{},[el("div",{class:"code",text:p.code}),el("div",{class:"desc",text:p.desc})]),
-      el("div",{class:"price",text:eur(p.price)})
-    ]));
+    const info=el("div",{},[el("div",{class:"code",text:p.code}),el("div",{class:"desc",text:p.desc})]);
+    if(p.guia){ const g=el("button",{class:"guia",type:"button",text:"Guía de tallas"}); g.onclick=()=>zoom(p.guia); info.appendChild(g); }
+    const left=el("div",{class:"pinfo"});
+    if(p.imgs){
+      const t=el("button",{class:"thumb",type:"button","aria-label":"Ampliar foto de "+p.code},[el("img",{src:FOTOS+p.imgs[0],alt:p.code,loading:"lazy"})]);
+      t.onclick=()=>zoom(t.firstChild.getAttribute("src").slice(FOTOS.length)); left.appendChild(t); p.thumb=t.firstChild;
+    }
+    left.appendChild(info);
+    box.appendChild(el("div",{class:"ph"},[left,el("div",{class:"price",text:eur(p.price)})]));
+    if(p.imgs && p.imgs.length>1){
+      const gal=el("div",{class:"gal"});
+      p.imgs.forEach((f,i)=>{ const b=el("button",{type:"button",class:i?"":"on","aria-label":"Ver foto "+(i+1)},[el("img",{src:FOTOS+f,alt:"",loading:"lazy"})]);
+        b.onclick=()=>showImg(p,f); gal.appendChild(b); });
+      box.appendChild(gal); p.gal=gal;
+    }
     const list=el("div",{id:"l_"+p.id}); box.appendChild(list);
     const b=el("button",{class:"add",type:"button",text:"+ Añadir"});
     b.onclick=()=>addLine(p); box.appendChild(b);
@@ -160,7 +188,7 @@ function addLine(p){
     let inp;
     if(f.text){ inp=el("input",{id,maxlength:"14",placeholder:"Ej.: IRENE"}); inp.oninput=()=>{L.vals[f.k]=inp.value.trim();}; }
     else{ inp=el("select",{id}); inp.appendChild(el("option",{value:"",text:"Elige…"}));
-      f.o.forEach(o=>inp.appendChild(el("option",{value:o,text:o}))); inp.onchange=()=>{L.vals[f.k]=inp.value;}; }
+      f.o.forEach(o=>inp.appendChild(el("option",{value:o,text:o}))); inp.onchange=()=>{L.vals[f.k]=inp.value; if(f.k==="color"&&p.porColor&&p.porColor[inp.value]) showImg(p,p.porColor[inp.value]);}; }
     inp.dataset.req=f.k; wrap.appendChild(inp); row.appendChild(wrap);
   });
   if(p.qty){
@@ -176,6 +204,15 @@ function addLine(p){
   del.onclick=()=>{lines.splice(lines.indexOf(L),1);line.remove();calc();};
   L.node=line; $("#l_"+p.id).appendChild(line); calc();
 }
+
+const FOTOS="fotos/";
+function showImg(p,f){
+  if(!p.thumb) return; p.thumb.src=FOTOS+f;
+  if(p.gal) [...p.gal.children].forEach((b,i)=>b.classList.toggle("on",p.imgs[i]===f));
+}
+function zoom(f){ const lb=$("#lb"); lb.firstChild.src=FOTOS+f; lb.classList.remove("hide"); }
+$("#lb").onclick=()=>$("#lb").classList.add("hide");
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("#lb").classList.add("hide"); });
 
 function calc(){
   const t=lines.reduce((s,L)=>s+PRODUCTS.find(p=>p.id===L.pid).price*L.qty,0);
