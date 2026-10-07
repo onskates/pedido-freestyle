@@ -11,3 +11,10 @@ Los pedidos se envían a **Formspree** (https://formspree.io):
 1. Crea una cuenta gratis en https://formspree.io y un formulario nuevo (New form).
 2. Copia el código del formulario (lo que va después de `formspree.io/f/`).
 3. Pégalo en `FORMSPREE_ID`, dentro de `index.html`.
+
+## En el móvil
+La web se adapta al móvil y se puede instalar como una app:
+- **Android (Chrome):** sale un botón «Instalar» arriba del formulario, o menú ⋮ → «Instalar aplicación».
+- **iPhone (Safari):** botón Compartir → «Añadir a pantalla de inicio».
+
+`qr-pedido-freestyle.png` es un código QR con el enlace, para compartirlo con las familias.
